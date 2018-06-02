@@ -6,6 +6,8 @@ import (
 
 type Group struct {
 
-	rules []Rule
+	base string
+
+	rules []*Rule
 
 }
