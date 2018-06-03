@@ -1,7 +1,7 @@
 package router
 
 import (
-
+	"strings"
 )
 
 type Router struct {
@@ -28,10 +28,16 @@ func (this *Router) Group(base string, callback func(*Group)) *Group {
 
 }
 
-func (this *Router) Parse() {
+func (this *Router) Handle(method string, uri string, request Request) Response {
 
-}
+	var handleGroup *Group
 
-func (this *Router) Handle(method string, uri string, request *Request) *Response {
-	return &Response{}
+	for _, v := range this.groups {
+		if strings.HasPrefix(uri, v.base) {
+			handleGroup = v
+		}
+	}
+
+	return handleGroup.Handle(method, uri, request)
+
 }

@@ -4,10 +4,18 @@ import (
 
 )
 
-type Request struct {
+type Request interface {
 
 }
 
-type Response struct {
+type Response interface {
+	
+}
+
+type DefaultRequest struct {
+
+}
+
+type DefaultResponse struct {
 	
 }

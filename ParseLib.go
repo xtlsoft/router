@@ -15,7 +15,41 @@ type ParsedRule struct {
 
 func ParseRule(rule string) *ParsedRule {
 
-	parseExp := regexp.MustCompile("{[A-Za-z0-9\\.\\+\\*\\?\\(\\)\\\\\\[\\]\\$\\^\\-]+:?([A-Za-z0-9]+)}")
+	replaceExp := regexp.MustCompile("[^{}]+") 
+
+	c := 0
+
+	rrules := map[string]string{
+		"/" : "\\/",
+		"." : "\\.",
+		"-" : "\\-",
+		"+" : "\\+",
+		"(" : "\\(",
+		")" : "\\)",
+		"[" : "\\[",
+		"]" : "\\]",
+		"*" : "\\*",
+		"^" : "\\^",
+		"$" : "\\&",
+		"|" : "\\|",
+	}
+
+	rule = string( replaceExp.ReplaceAllFunc([]byte(rule), func (r []byte) []byte{
+		
+		c ++
+
+		if (c % 2) == 1 {
+			for k, v := range rrules {
+				r = []byte(strings.Replace(string(r), k, v, -1))
+			}
+			return r
+		}else{
+			return r
+		}
+
+	}) )
+
+	parseExp := regexp.MustCompile("{[A-Za-z0-9\\.\\+\\*\\?\\(\\)\\\\\\[\\]\\$\\^\\-\\|]+:?([A-Za-z0-9]+)}")
 	
 	var variables []string
 
@@ -44,9 +78,11 @@ func ParseRule(rule string) *ParsedRule {
 		return []byte(ruleReal)
 	})
 
+	regStr := string(regExp)
+
 	return &ParsedRule{
 		Variables: variables,
-		RegExp: string(regExp),
+		RegExp: regStr,
 	}
 
 }

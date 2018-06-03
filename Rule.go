@@ -7,7 +7,7 @@ import (
 type Rule struct {
 
 	Uri string
-	Controller func (*Request) *Response
+	Controller func (Request) Response
 	
 	Parsed *ParsedRule
 
