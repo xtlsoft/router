@@ -6,7 +6,7 @@ import (
 
 type Rule struct {
 
-	Rule string
-	Controller func (Request) Response
+	Uri string
+	Controller func (*Request) *Response
 
 }

@@ -9,8 +9,8 @@ func main() {
 
     r := router.New()
 
-    r.Group("/", func (r *router.Group){
-        
+    r.Group("/", func (g *router.Group){
+        g.On("GET", "/", ".")
     })
 
 }
