@@ -27,3 +27,11 @@ func (this *Router) Group(base string, callback func(*Group)) *Group {
 	return grp
 
 }
+
+func (this *Router) Parse() {
+
+}
+
+func (this *Router) Handle(method string, uri string, request *Request) *Response {
+	return &Response{}
+}
