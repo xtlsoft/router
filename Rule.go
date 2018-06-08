@@ -6,6 +6,7 @@ import (
 
 type Rule struct {
 
+	Method string
 	Uri string
 	Controller func (Request) Response
 	
@@ -17,4 +18,10 @@ func (this *Rule) Parse() {
 	
 	this.Parsed = ParseRule(this.Uri)
 	
+}
+
+func (this *Rule) Match() {
+
+	
+
 }

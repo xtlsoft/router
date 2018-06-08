@@ -86,3 +86,9 @@ func ParseRule(rule string) *ParsedRule {
 	}
 
 }
+
+func CheckMatch(exp string, uri string){
+
+	
+
+}
