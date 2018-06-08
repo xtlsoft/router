@@ -87,8 +87,10 @@ func ParseRule(rule string) *ParsedRule {
 
 }
 
-func CheckMatch(exp string, uri string){
+func CheckMatch(exp string, uri string) (matched bool, vars map[string]string) {
 
-	
+	reg := regexp.MustCompile(exp)
+
+	return reg.FindAllStringSubmatch(uri, 99999)[0]
 
 }
