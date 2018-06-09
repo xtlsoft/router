@@ -87,10 +87,20 @@ func ParseRule(rule string) *ParsedRule {
 
 }
 
-func CheckMatch(exp string, uri string) (matched bool, vars map[string]string) {
+func CheckMatch(parsed *ParsedRule, uri string) (matched bool, vars map[string]string) {
 
-	reg := regexp.MustCompile(exp)
+	reg := regexp.MustCompile(parsed.RegExp)
 
-	return reg.FindAllStringSubmatch(uri, 99999)[0]
+	var varRslt = map[string]string{}
+
+	varSlice := reg.FindStringSubmatch(uri)
+
+	if varSlice != nil {
+		for k, v := range parsed.Variables {
+			varRslt[v] = varSlice[k + 1]
+		}
+	}
+
+	return (varSlice != nil), varRslt
 
 }

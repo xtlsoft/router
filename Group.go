@@ -28,14 +28,33 @@ func (this *Group) On(method string, uri string, controller func(Request) Respon
 
 }
 
-func (this *Group) Handle(method string, uri string, req Request) Response {
+func (this *Group) Handle(method string, uri string, req Request) (resp Response, isMatched bool) {
+
+	var flag = false
+	var vars = map[string]string{}
+	var controller func (Request) Response
 
 	for _, v := range this.rules {
 		if v.Method == method {
-			
+			matched, variables, callback := v.Match(uri)
+			if matched {
+				flag = true
+				vars = variables
+				controller = callback
+			}
 		}
 	}
 
-	return &DefaultResponse{}
+	if !flag {
+		return &DefaultResponse{}, false
+	}
+
+	var response Response
+
+	req.SetRouterVariable(vars)
+
+	response = controller(req)
+
+	return response, true
 
 }

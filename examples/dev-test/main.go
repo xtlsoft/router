@@ -11,6 +11,6 @@ func main(){
 
 	fmt.Println(parsed)
 
-	fmt.Println(router.CheckMatch(parsed.RegExp, "/test/aaa/10/adz.html") )
+	fmt.Println(router.CheckMatch(parsed, "/test/aaa/10/afdf.html") )
 
 }

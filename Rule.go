@@ -20,8 +20,12 @@ func (this *Rule) Parse() {
 	
 }
 
-func (this *Rule) Match() {
+func (this *Rule) Match(uri string) (matched bool, variables map[string]string, callback func (Request) Response) {
 
+	matched, variables = CheckMatch(this.Parsed, uri)
 	
+	callback = this.Controller
+
+	return
 
 }

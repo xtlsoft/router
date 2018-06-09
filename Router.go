@@ -28,7 +28,7 @@ func (this *Router) Group(base string, callback func(*Group)) *Group {
 
 }
 
-func (this *Router) Handle(method string, uri string, request Request) Response {
+func (this *Router) Handle(method string, uri string, request Request) (resp Response, isMatched bool) {
 
 	var handleGroup *Group
 
