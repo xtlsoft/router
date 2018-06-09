@@ -7,7 +7,7 @@ import (
 
 func main(){
 
-	parsed := router.ParseRule("/test/{module}/{([0-9]+):cid}/{([a-z]+):ident}.html")
+	parsed := router.ParseRule("/test/{module}/{[0-9]+:cid}/{[a-z]+:ident}.html")
 
 	fmt.Println(parsed)
 

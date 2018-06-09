@@ -23,3 +23,12 @@ var DefaultNotFoundResponse = &DefaultResponse{
 var DefaultNotFoundController = func(req Request) Response {
 	return DefaultNotFoundResponse
 }
+
+var Shortcuts = map[string]string{
+	"@int" : "[0-9]+",
+	"@ident" : "[A-Za-z0-9_-]+",
+}
+
+func AddShortcut(alias string, regex string){
+	Shortcuts[alias] = regex
+}

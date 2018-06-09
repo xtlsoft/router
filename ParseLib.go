@@ -49,7 +49,7 @@ func ParseRule(rule string) *ParsedRule {
 
 	}) )
 
-	parseExp := regexp.MustCompile("{[A-Za-z0-9\\.\\+\\*\\?\\(\\)\\\\\\[\\]\\$\\^\\-\\|]+:?([A-Za-z0-9]+)}")
+	parseExp := regexp.MustCompile("{[A-Za-z0-9\\@\\.\\+\\*\\?\\(\\)\\\\\\[\\]\\$\\^\\-\\|]+:?([A-Za-z0-9]+)}")
 	
 	var variables []string
 
@@ -62,6 +62,10 @@ func ParseRule(rule string) *ParsedRule {
 
 		rra := strings.Split(rr, ":")
 
+		if strings.HasPrefix(rra[0], "@"){
+			rra[0] = Shortcuts[rra[0]]
+		}
+
 		var ruleReal string
 		var name string
 
@@ -69,7 +73,7 @@ func ParseRule(rule string) *ParsedRule {
 			ruleReal = "(.*)"
 			name = rra[0]
 		}else{
-			ruleReal = rra[0]
+			ruleReal = "(" + rra[0] + ")"
 			name = rra[1]
 		}
 
