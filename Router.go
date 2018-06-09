@@ -31,6 +31,8 @@ func (this *Router) Group(base string, callback func(*Group)) *Group {
 
 func (this *Router) Handle(method string, uri string, request Request) (resp Response, isMatched bool) {
 
+	method = strings.ToLower(method)
+
 	var handleGroup *Group
 
 	for _, v := range this.groups {

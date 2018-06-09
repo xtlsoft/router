@@ -1,7 +1,7 @@
 package router
 
 import (
-
+	"strings"
 )
 
 type Group struct {
@@ -17,7 +17,7 @@ type Group struct {
 func (this *Group) On(method string, uri string, controller func(Request) Response) *Rule {
 
 	rule := &Rule{
-		Method: method,
+		Method: strings.ToLower(method),
 		Uri: uri,
 		Controller: controller,
 	}
