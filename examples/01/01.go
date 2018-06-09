@@ -5,24 +5,26 @@ import (
     router "../.."
 )
 
-type Response struct {
-    StatusCode int
-    Body string
-}
-
 func main() {
 
     r := router.New()
 
+    router.AddShortcut("@test", "i[0-9]+");
+
     r.Group("/", func (g *router.Group){
-        g.On("GET", "test/{test}/{@int:another}", func (req router.Request) router.Response {
-            return &Response{
+        g.On("GET", "test/{test}/{@test:another}", func (req router.Request) router.Response {
+            return &router.DefaultResponse{
                 StatusCode: 200,
                 Body: "Hello World!" + req.(*router.DefaultRequest).RouterVariable["test"],
             }
         })
+        g.Any(func (router.Request) router.Response{
+            return &router.DefaultResponse{
+                Body: "404 Not Found",
+            }
+        })
     })
 
-    fmt.Println( r.Handle("GET", "/test/abc/234", &router.DefaultRequest{}) )
+    fmt.Println( r.Handle("GET", "/test/abc/i234", &router.DefaultRequest{}) )
 
 }
