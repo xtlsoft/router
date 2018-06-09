@@ -37,7 +37,7 @@ func (this *Group) Handle(method string, uri string, req Request) (resp Response
 	var controller func (Request) Response
 
 	for _, v := range this.rules {
-		if v.Method == method {
+		if v.Method == "*" || v.Method == method {
 			matched, variables, callback := v.Match(uri)
 			if matched {
 				flag = true
