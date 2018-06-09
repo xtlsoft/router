@@ -1,5 +1,7 @@
 # Go-Router
 
+[![GoDoc](https://godoc.org/github.com/xtlsoft/router?status.svg)](https://godoc.org/github.com/xtlsoft/router)
+
 Maybe the best router library in Golang.
 
 Designed for all usages. Almost the same as XPHP's router.
