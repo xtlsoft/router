@@ -4,7 +4,7 @@ import (
 	
 )
 
-var DefaultNotFoundResponse = &DefaultResponse{
+var DefaultNotFoundResponse = &HttpResponse{
 		StatusCode: 404,
 		Body: `<!Doctype html>
 <html>
