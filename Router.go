@@ -19,6 +19,7 @@ func (this *Router) Group(base string, callback func(*Group)) *Group {
 	var grp = new(Group)
 
 	grp.base = base
+	grp.notFoundResponse = DefaultNotFoundController
 
 	this.groups = append(this.groups, grp)
 
@@ -40,4 +41,8 @@ func (this *Router) Handle(method string, uri string, request Request) (resp Res
 
 	return handleGroup.Handle(method, uri, request)
 
+}
+
+func (this *Router) Any(controller func(Request) Response){
+	DefaultNotFoundController = controller
 }

@@ -18,7 +18,7 @@ func main() {
         g.On("GET", "test/{test}", func (req router.Request) router.Response {
             return &Response{
                 StatusCode: 200,
-                Body: "Hello World!",
+                Body: "Hello World!" + req.(*router.DefaultRequest).RouterVariable["test"],
             }
         })
     })

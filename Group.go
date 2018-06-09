@@ -10,6 +10,8 @@ type Group struct {
 
 	rules []*Rule
 
+	notFoundResponse func(Request) Response
+
 }
 
 func (this *Group) On(method string, uri string, controller func(Request) Response) *Rule {
@@ -46,7 +48,7 @@ func (this *Group) Handle(method string, uri string, req Request) (resp Response
 	}
 
 	if !flag {
-		return &DefaultResponse{}, false
+		return this.notFoundResponse(req), false
 	}
 
 	var response Response
@@ -56,5 +58,11 @@ func (this *Group) Handle(method string, uri string, req Request) (resp Response
 	response = controller(req)
 
 	return response, true
+
+}
+
+func (this *Group) Any(controller func(Request) Response) {
+
+	this.notFoundResponse = controller
 
 }

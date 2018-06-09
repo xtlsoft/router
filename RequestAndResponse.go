@@ -17,7 +17,8 @@ type DefaultRequest struct {
 }
 
 type DefaultResponse struct {
-	
+	StatusCode int
+	Body string
 }
 
 func (this *DefaultRequest) SetRouterVariable(vars map[string]string){
