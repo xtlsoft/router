@@ -1,12 +1,11 @@
 package router
 
-import (
-	"fmt"
+import (	
 	"net/http"
 )
 
 type HttpRequest struct {
-	// *http.Request
+	*http.Request
 	RouterVariable map[string]string
 }
 
@@ -30,13 +29,12 @@ func (this *HttpResponse) GetBody() string {
 
 func HttpServe(router *Router, address string) {
 
-	println("started at "+address)
-
 	http.HandleFunc("/", func (rw http.ResponseWriter, req *http.Request) {
 		me := req.Method
 		ur := req.URL
 		var request *HttpRequest
-		// request.Request = req
+		request = &HttpRequest{}
+		request.Request = req
 		resp, _ := router.Handle(me, ur.RequestURI(), request)
 
 		rw.WriteHeader(resp.(IHttpResponse).GetStatusCode())
@@ -48,5 +46,5 @@ func HttpServe(router *Router, address string) {
 }
 
 func (this *HttpRequest) SetRouterVariable(vars map[string]string){
-	fmt.Println(this.RouterVariable)
+	this.RouterVariable = vars
 }

@@ -11,6 +11,8 @@ func main() {
 
     router.AddShortcut("@test", "i[0-9]+");
 
+    fmt.Println("Server started.")
+
     r.Group("/", func (g *router.Group){
         g.On("GET", "test/{test}/{@test:another}", func (req router.Request) router.Response {
             return &router.HttpResponse{
