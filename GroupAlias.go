@@ -36,3 +36,11 @@ func (this *Group) WebSocket(uri string, controller interface{}) *Rule {
 	return this.On("WebSocket", uri, controller)
 }
 
+func (this *Group) Head(uri string, controller interface{}) *Rule {
+	return this.On("Head", uri, controller)
+}
+
+func (this *Group) Options(uri string, controller interface{}) *Rule {
+	return this.On("Options", uri, controller)
+}
+

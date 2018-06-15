@@ -17,7 +17,7 @@ Generated with "Generate_GroupAlias.php"
 
 EOF;
 
-$aliases = ["Get", "Post", "Put", "Delete", "Patch", "CLI", "WebSocket"];
+$aliases = ["Get", "Post", "Put", "Delete", "Patch", "CLI", "WebSocket", "Head", "Options"];
 
 foreach ($aliases as $alias) {
     echo <<<EOF
