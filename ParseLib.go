@@ -93,6 +93,8 @@ func ParseRule(rule string) *ParsedRule {
 
 func CheckMatch(parsed *ParsedRule, uri string) (matched bool, vars map[string]string) {
 
+	uri = strings.Split(uri, "?")[0]
+
 	reg := regexp.MustCompile(parsed.RegExp)
 
 	var varRslt = map[string]string{}
