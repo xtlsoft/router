@@ -99,12 +99,12 @@ func CheckMatch(parsed *ParsedRule, uri string) (matched bool, vars map[string]s
 
 	varSlice := reg.FindStringSubmatch(uri)
 
-	if varSlice != nil {
+	if varSlice != nil && varSlice[0] == uri {
 		for k, v := range parsed.Variables {
 			varRslt[v] = varSlice[k + 1]
 		}
 	}
 
-	return (varSlice != nil), varRslt
+	return (varSlice != nil && varSlice[0] == uri), varRslt
 
 }
