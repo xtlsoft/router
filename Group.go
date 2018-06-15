@@ -10,11 +10,11 @@ type Group struct {
 
 	rules []*Rule
 
-	notFoundResponse func(Request) Response
+	notFoundResponse interface{}
 
 }
 
-func (this *Group) On(method string, uri string, controller func(Request) Response) *Rule {
+func (this *Group) On(method string, uri string, controller interface{}) *Rule {
 
 	rule := &Rule{
 		Method: strings.ToLower(method),
@@ -30,38 +30,32 @@ func (this *Group) On(method string, uri string, controller func(Request) Respon
 
 }
 
-func (this *Group) Handle(method string, uri string, req Request) (resp Response, isMatched bool) {
+func (this *Group) Parse(method string, uri string) (isMatched bool, controller interface{}, variables map[string]string) {
 
 	var flag = false
 	var vars = map[string]string{}
-	var controller func (Request) Response
+	var ctrler interface{}
 
 	for _, v := range this.rules {
 		if v.Method == "*" || v.Method == method {
-			matched, variables, callback := v.Match(uri)
+			matched, variable, callback := v.Match(uri)
 			if matched {
 				flag = true
-				vars = variables
-				controller = callback
+				vars = variable
+				ctrler = callback
 			}
 		}
 	}
 
 	if !flag {
-		return this.notFoundResponse(req), false
+		return false, this.notFoundResponse, map[string]string{"Uri": uri, "Method": method}
 	}
 
-	var response Response
-
-	req.SetRouterVariable(vars)
-
-	response = controller(req)
-
-	return response, true
+	return true, ctrler, vars
 
 }
 
-func (this *Group) Any(controller func(Request) Response) {
+func (this *Group) Any(controller interface{}) {
 
 	this.notFoundResponse = controller
 

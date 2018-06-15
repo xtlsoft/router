@@ -20,7 +20,7 @@ var DefaultNotFoundResponse = &HttpResponse{
 </html>`,
 }
 
-var DefaultNotFoundController = func(req Request) Response {
+var DefaultNotFoundController interface{} = func(req Request) Response {
 	return DefaultNotFoundResponse
 }
 
@@ -31,4 +31,22 @@ var Shortcuts = map[string]string{
 
 func AddShortcut(alias string, regex string){
 	Shortcuts[alias] = regex
+}
+
+var DefaultHandler  = func(isMatched bool, request interface{}, controller interface{}, variables map[string]string) (response interface{}) {
+
+	r := request.(Request)
+	
+	c := controller.(func (Request) Response)
+
+	r.SetRouterVariable(variables)
+
+	return c(r)
+
+}
+
+func SetHandler(handler func(bool, interface{}, interface{}, map[string]string) interface{}) {
+
+	DefaultHandler = handler
+
 }

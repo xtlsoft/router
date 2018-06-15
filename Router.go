@@ -7,11 +7,14 @@ import (
 type Router struct {
 	
 	groups []*Group
+	handler func(bool, interface{}, interface{}, map[string]string) interface{}
 
 }
 
 func New() *Router {
-	return new(Router)
+	r := new(Router)
+	r.SetHandler(DefaultHandler)
+	return r
 }
 
 func (this *Router) Group(base string, callback func(*Group)) *Group {
@@ -29,7 +32,7 @@ func (this *Router) Group(base string, callback func(*Group)) *Group {
 
 }
 
-func (this *Router) Handle(method string, uri string, request Request) (resp Response, isMatched bool) {
+func (this *Router) Parse(method string, uri string) (isMatched bool, controller interface{}, variables map[string]string) {
 
 	method = strings.ToLower(method)
 
@@ -41,10 +44,27 @@ func (this *Router) Handle(method string, uri string, request Request) (resp Res
 		}
 	}
 
-	return handleGroup.Handle(method, uri, request)
+	return handleGroup.Parse(method, uri)
 
 }
 
-func (this *Router) Any(controller func(Request) Response){
+func (this *Router) Any(controller interface{}){
 	DefaultNotFoundController = controller
+}
+
+func (this *Router) SetHandler(handler func(bool, interface{}, interface{}, map[string]string) interface{}) {
+
+	this.handler = handler
+
+}
+
+func (this *Router) Handle(method string, uri string, request interface{}) (Response interface{}, isMatched bool) {
+	
+	h := this.handler
+	is, con, vars := this.Parse(method, uri)
+
+	resp := h(is, request, con, vars)
+	
+	return resp, is
+
 }

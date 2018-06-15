@@ -21,7 +21,7 @@ $aliases = ["Get", "Post", "Put", "Delete", "Patch", "CLI", "WebSocket"];
 
 foreach ($aliases as $alias) {
     echo <<<EOF
-func (this *Group) {$alias}(uri string, controller func(Request) Response) *Rule {
+func (this *Group) {$alias}(uri string, controller interface{}) *Rule {
 	return this.On("{$alias}", uri, controller)
 }
 
